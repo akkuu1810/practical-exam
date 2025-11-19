@@ -170,10 +170,10 @@ const Inspections = () => {
   }
 
   return (
-    <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 xl:p-10 space-y-4 sm:space-y-6 overflow-x-hidden">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Inspections</h1>
-        <div className="flex items-center gap-2 lg:gap-3 flex-1 w-full sm:flex-initial sm:justify-end">
+        <h1 className="text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900">Inspections</h1>
+        <div className="flex items-center gap-2 lg:gap-3 xl:gap-4 flex-1 w-full sm:flex-initial sm:justify-end">
           <div className="relative flex-1 sm:max-w-md">
             <input
               type="text"
@@ -211,7 +211,7 @@ const Inspections = () => {
                   className="fixed inset-0 z-10"
                   onClick={() => setShowFilterModal(false)}
                 />
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-20 p-4 max-h-96 overflow-y-auto">
+                <div className="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-20 p-4 max-h-96 overflow-y-auto">
                   <div className="space-y-4">
                     <div>
                       <h3 className="text-sm font-semibold text-gray-700 mb-2">Status</h3>
@@ -267,35 +267,39 @@ const Inspections = () => {
               setEditingInspection(null)
               setShowModal(true)
             }}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm lg:text-base flex-shrink-0"
+            className="px-4 py-2 bg-[#123a73] text-white rounded-lg hover:bg-[#123a73] transition-colors font-medium text-sm lg:text-base flex-shrink-0"
           >
             Add Inspection
           </button>
         </div>
       </div>
 
-      {filters.length > 0 && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm text-gray-700 font-medium">Filters Applied:</span>
-          {filters.map((filter, index) => (
-            <span
-              key={index}
-              className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-            >
-              {filter.label}
-              <button
-                onClick={() => removeFilter(index)}
-                className="hover:text-gray-900 transition-colors"
-                aria-label={`Remove ${filter.label} filter`}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
+        {filters.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm text-gray-700 font-medium">Filters Applied:</span>
+            {filters.map((filter, index) => {
+              const [label, value] = filter.label.split(': ')
+              return (
+                <span
+                  key={index}
+                  className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm border border-gray-300"
+                >
+                  <span className="font-normal">{label}:</span>
+                  <span className="font-bold">{value}</span>
+                  <button
+                    onClick={() => removeFilter(index)}
+                    className="hover:text-gray-900 transition-colors"
+                    aria-label={`Remove ${filter.label} filter`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </span>
+              )
+            })}
+          </div>
+        )}
 
       <InspectionsTable
         inspections={filteredInspections}
@@ -329,20 +333,20 @@ const Inspections = () => {
       )}
 
       {showDeleteConfirm && inspectionToDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
-            <p className="text-gray-700 mb-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg sm:text-xl font-bold mb-4">Confirm Delete</h2>
+            <p className="text-gray-700 mb-6 text-sm sm:text-base">
               Are you sure you want to delete the inspection for <strong>{inspectionToDelete.customer}</strong> at <strong>{inspectionToDelete.address}</strong>?
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => {
                   deleteInspection(inspectionToDelete.id)
                   setShowDeleteConfirm(false)
                   setInspectionToDelete(null)
                 }}
-                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors"
+                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors font-medium"
               >
                 Delete
               </button>
@@ -351,7 +355,7 @@ const Inspections = () => {
                   setShowDeleteConfirm(false)
                   setInspectionToDelete(null)
                 }}
-                className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
+                className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors font-medium"
               >
                 Cancel
               </button>

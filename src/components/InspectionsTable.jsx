@@ -12,11 +12,11 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Completed':
-        return 'bg-green-100 text-green-800'
+        return 'bg-[#067a57] text-white'
       case 'In Progress':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-[#123a73] text-white'
       case 'Scheduled':
-        return 'bg-orange-100 text-orange-800'
+        return 'bg-[#f46036] text-white'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -36,26 +36,26 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[800px]">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <table className="w-full min-w-[600px] xl:min-w-[800px]">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 Customer & Address
               </th>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 Status
               </th>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 Type(s)
               </th>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 Inspector
               </th>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 Date
               </th>
-              <th className="px-4 lg:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <th className="px-2 sm:px-4 lg:px-6 py-3 text-left text-xs lg:text-sm font-semibold text-gray-900">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
@@ -74,7 +74,7 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
                 </td>
                 <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium ${getStatusColor(
                       inspection.status
                     )}`}
                   >
@@ -96,7 +96,7 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
                   <div className="flex items-center gap-3 justify-end">
                     <button
                       onClick={() => onEdit(inspection)}
-                      className="text-gray-600 hover:text-primary transition-colors"
+                      className="text-gray-600 hover:text-[#123a73] transition-colors"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -116,7 +116,7 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 lg:px-6 py-8 text-center text-sm text-gray-500">
+                <td colSpan={6} className="px-2 sm:px-4 lg:px-6 py-8 text-center text-sm text-gray-500">
                   No inspections found
                 </td>
               </tr>
@@ -125,7 +125,7 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
         </table>
       </div>
 
-      <div className="bg-gray-50 px-4 lg:px-6 py-4 border-t border-gray-200">
+      <div className="bg-gray-50 px-2 sm:px-4 lg:px-6 py-4 border-t border-gray-200">
         <div className="flex flex-col gap-4">
           <div className="text-xs lg:text-sm text-gray-700 text-center sm:text-left">
             Showing {startEntry} to {endEntry} of {totalEntries} entries
@@ -139,7 +139,7 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
                   setEntriesPerPage(Number(e.target.value))
                   setCurrentPage(1)
                 }}
-                className="border border-gray-300 rounded-md px-2 py-1 text-xs lg:text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="border border-gray-300 rounded-md px-2 py-1 text-xs lg:text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#123a73]"
               >
                 <option value={10}>10</option>
                 <option value={25}>25</option>
@@ -156,12 +156,12 @@ const InspectionsTable = ({ inspections = [], onEdit, onDelete }) => {
               >
                 Previous
               </button>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 overflow-x-auto">
                 {Array.from({ length: Math.min(totalPages, 4) }, (_, i) => i + 1).map((page) => (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`px-2 lg:px-3 py-1 text-xs lg:text-sm border rounded-md transition-colors ${
+                    className={`px-2 lg:px-3 py-1 text-xs lg:text-sm border rounded-md transition-colors whitespace-nowrap ${
                       currentPage === page
                         ? 'bg-primary text-white border-primary'
                         : 'border-gray-300 hover:bg-gray-100'

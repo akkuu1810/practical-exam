@@ -80,12 +80,16 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen, isOpen, setIsOpen }) => {
       }`}>
         <div className="p-4 lg:p-6">
           <div className="mb-8">
-            <div className={`text-primary font-bold text-lg lg:text-xl transition-opacity ${
-              isOpen ? 'opacity-100' : 'opacity-0 w-0'
-            }`}>
-              <div>MYPROPERTY</div>
-              <div>INSURE</div>
-            </div>
+           <div className={`transition-opacity ${isOpen ? 'opacity-100 w-[150px]' : 'opacity-0 w-0'} overflow-hidden`}>
+  <div className="font-extrabold text-lg lg:text-xl text-[#123a73] leading-none">
+    MYPROPERTY
+  </div>
+
+  <div className="text-red-600 font-semibold tracking-[0.5em] text-sm leading-none mt-1">
+    I N S U R E
+  </div>
+</div>
+
             <button
               onClick={() => setIsMobileOpen(false)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors lg:hidden mt-2"
@@ -99,8 +103,8 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen, isOpen, setIsOpen }) => {
 
         <div className="space-y-6">
           <div>
-            <h2 className={`text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 ${
-              isOpen ? 'block' : 'hidden'
+            <h2 className={`text-xs font-semibold text-[#123a73] uppercase tracking-wider mb-3 ${
+              isOpen ? 'block pl-4' : 'hidden'
             }`}>
               NAVIGATION
             </h2>
@@ -114,11 +118,10 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen, isOpen, setIsOpen }) => {
                     className={`flex items-center py-3 transition-colors ${
                       isOpen ? 'gap-3 px-4' : 'justify-center px-2'
                     } ${
-                      item.active
-                        ? isOpen 
-                          ? 'bg-primary text-white rounded-r-lg' 
-                          : 'bg-primary text-white rounded-lg'
-                        : 'text-gray-700 hover:bg-gray-100 rounded-lg'
+                    item.active
+  ? 'bg-[#123a73] text-white rounded-r-full'
+  : 'text-gray-700 hover:bg-gray-100 rounded-lg'
+
                     }`}
                   >
                     <IconComponent className="w-5 h-5 flex-shrink-0" />
@@ -130,8 +133,8 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen, isOpen, setIsOpen }) => {
           </div>
 
           <div>
-            <h2 className={`text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 ${
-              isOpen ? 'block' : 'hidden'
+            <h2 className={`text-xs font-semibold text-[#123a73] uppercase tracking-wider mb-3 ${
+              isOpen ? 'block pl-4' : 'hidden'
             }`}>
               MANAGEMENT
             </h2>
@@ -146,9 +149,7 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen, isOpen, setIsOpen }) => {
                       isOpen ? 'gap-3 px-4' : 'justify-center px-2'
                     } ${
                       item.active
-                        ? isOpen 
-                          ? 'bg-primary text-white rounded-r-lg' 
-                          : 'bg-primary text-white rounded-lg'
+                        ? 'bg-[#123a73] text-white rounded-r-lg'
                         : 'text-gray-700 hover:bg-gray-100 rounded-lg'
                     }`}
                   >

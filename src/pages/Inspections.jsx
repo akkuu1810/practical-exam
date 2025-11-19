@@ -1,13 +1,18 @@
 import { useState, useMemo } from 'react'
 import InspectionsTable from '../components/InspectionsTable'
+import InspectionModal from '../components/InspectionModal'
 
 const Inspections = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState([])
   const [showFilterModal, setShowFilterModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [editingInspection, setEditingInspection] = useState(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [inspectionToDelete, setInspectionToDelete] = useState(null)
 
   // All inspections data
-  const allInspections = [
+  const [allInspections, setAllInspections] = useState([
     {
       id: 1,
       customer: 'Michael Thompson',
@@ -97,8 +102,8 @@ const Inspections = () => {
       types: ['AMHI', '4-Point'],
       inspector: 'Sunita Patel',
       date: '09/22/2025',
-    },
-  ]
+    }
+  ])
 
   // Filter inspections based on search query and filters
   const filteredInspections = useMemo(() => {
@@ -133,7 +138,7 @@ const Inspections = () => {
     }
 
     return filtered
-  }, [searchQuery, filters])
+  }, [searchQuery, filters, allInspections])
 
   const removeFilter = (index) => {
     setFilters(filters.filter((_, i) => i !== index))
@@ -150,6 +155,19 @@ const Inspections = () => {
 
   const statusOptions = ['Completed', 'In Progress', 'Scheduled']
   const typeOptions = ['AMHI', '4-Point', 'Wind Mitigation', 'Roof Cert']
+
+  const addInspection = (inspection) => {
+    const newId = Math.max(...allInspections.map(i => i.id)) + 1
+    setAllInspections([...allInspections, { ...inspection, id: newId }])
+  }
+
+  const updateInspection = (id, updatedInspection) => {
+    setAllInspections(allInspections.map(i => i.id === id ? { ...i, ...updatedInspection } : i))
+  }
+
+  const deleteInspection = (id) => {
+    setAllInspections(allInspections.filter(i => i.id !== id))
+  }
 
   return (
     <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
@@ -244,7 +262,13 @@ const Inspections = () => {
               </>
             )}
           </div>
-          <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm lg:text-base flex-shrink-0">
+          <button
+            onClick={() => {
+              setEditingInspection(null)
+              setShowModal(true)
+            }}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm lg:text-base flex-shrink-0"
+          >
             Add Inspection
           </button>
         </div>
@@ -273,7 +297,68 @@ const Inspections = () => {
         </div>
       )}
 
-      <InspectionsTable inspections={filteredInspections} />
+      <InspectionsTable
+        inspections={filteredInspections}
+        onEdit={(inspection) => {
+          setEditingInspection(inspection)
+          setShowModal(true)
+        }}
+        onDelete={(inspection) => {
+          setInspectionToDelete(inspection)
+          setShowDeleteConfirm(true)
+        }}
+      />
+
+      {showModal && (
+        <InspectionModal
+          inspection={editingInspection}
+          onSave={(inspection) => {
+            if (editingInspection) {
+              updateInspection(editingInspection.id, inspection)
+            } else {
+              addInspection(inspection)
+            }
+            setShowModal(false)
+            setEditingInspection(null)
+          }}
+          onCancel={() => {
+            setShowModal(false)
+            setEditingInspection(null)
+          }}
+        />
+      )}
+
+      {showDeleteConfirm && inspectionToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete the inspection for <strong>{inspectionToDelete.customer}</strong> at <strong>{inspectionToDelete.address}</strong>?
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  deleteInspection(inspectionToDelete.id)
+                  setShowDeleteConfirm(false)
+                  setInspectionToDelete(null)
+                }}
+                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false)
+                  setInspectionToDelete(null)
+                }}
+                className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
